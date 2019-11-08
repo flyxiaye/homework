@@ -21,103 +21,70 @@ public class BinaryTree {
         for (int i:a)
             tree.insertByAsc(i);
         tree.traversal();
-    }
-    
+    } 
 }
 
-class binTree
+class binTree <Item extends Comparable>
 {
-    public Node head;      //二叉树头结点
-    public binTree(int e)
-    {
-        head = new Node(e);
+    public Node root;      //二叉树头结点
+    public binTree(Item e) {
+        root = new Node(e);
     }
-    public binTree()
-    {
-       
-    }
-    public void insertByAsc(int e)      //升序插入
-    {
-        if (head == null)
-        {
-            head = new Node(e);
+    public binTree() { }
+    public void insertByAsc(Item e) {      //升序插入
+        if (root == null){
+            root = new Node(e);
             return;
         }
-        Node ref = head;
-        while (true)
-        {
-            if (e <= ref.elem)
-            {
-                if (ref.leftSubTree == null)
-                {
-                    ref.insertAsLeft(e);
+        Node ref = root;
+        while (true) {
+            if (e.compareTo(ref.elem) != 1) {
+                if (ref.leftSubTree == null) {                 
+                    ref.leftSubTree = new Node(e);
                     break;
-                }
-                else 
+                }else 
                     ref = ref.leftSubTree;
-            }
-            else if (e > ref.elem)
-            {
-                if (ref.rightSubTree == null)
-                {
-                    ref.insertAsRight(e);
+            }else if (1 == e.compareTo(ref.elem)){
+                if (ref.rightSubTree == null){
+                    ref.rightSubTree = new Node(e);
                     break;
-                }
-                else
+                }else
                     ref = ref.rightSubTree;
             }
         }
     }
     
-    public void travesal(Node ref)     //中序遍历
-    {
+    public void travesal(Node ref){     //中序遍历
         if (ref.leftSubTree != null)
             this.travesal(ref.leftSubTree);      
-         System.out.println(ref.elem);      //打印节点内容
+        ref.display();      //打印节点内容
         if (ref.rightSubTree != null)
             this.travesal(ref.rightSubTree);
-        
     }
-    public void traversal()
-    {
-        travesal(head);
+    
+    public void traversal(){
+        travesal(root);
     }
 }
 
-class Node          //树节点
+ class Node <Item>         //树节点
 {
-    public int elem;       //节点元素
+    public Item elem;       //节点元素
     public Node leftSubTree;       //左子树
     public Node rightSubTree;      //右子树
-    public Node(int e, Node l, Node r)
-    {
+    public Node(Item e, Node l, Node r){
         elem = e;
         leftSubTree = l;
         rightSubTree = r;
     }
-    public Node(int e)
-    {
-        elem = e;
+    public Node(Item e){ elem = e; }
+    public Node(){}
+    public void display(){
+        System.out.println(this.elem);
     }
-    public Node()
-    {
-        elem = 0;
-    }
-    public void insertAsLeft(Node l)        //作为当前节点的左子树插入
-    {
-        leftSubTree = l;
-    }
-    public void insertAsLeft(int e)         //作为当前节点的左子树插入
-    {
-        leftSubTree = new Node(e);
-    }
-    public void insertAsRight(Node r)       //作为当前节点的右子树插入
-    {
-        rightSubTree = r;
-    }
-    public void insertAsRight(int e)       //作为当前节点的右子树插入
-    {
-        rightSubTree = new Node(e);
-    }
+}
+
+class DataType
+{
     
 }
