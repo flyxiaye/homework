@@ -21,17 +21,18 @@ public class BinaryTree {
         for (int i:a)
             tree.insertByAsc(i);
         tree.traversal();
+            
     } 
 }
 
-class binTree <Item extends Comparable>
+class binTree 
 {
     public Node root;      //二叉树头结点
-    public binTree(Item e) {
+    public binTree(Comparable e) {
         root = new Node(e);
     }
     public binTree() { }
-    public void insertByAsc(Item e) {      //升序插入
+    public void insertByAsc(Comparable e) {      //升序插入
         if (root == null){
             root = new Node(e);
             return;
@@ -67,24 +68,20 @@ class binTree <Item extends Comparable>
     }
 }
 
- class Node <Item>         //树节点
+ class Node          //树节点
 {
-    public Item elem;       //节点元素
+    public Comparable elem;       //节点元素
     public Node leftSubTree;       //左子树
     public Node rightSubTree;      //右子树
-    public Node(Item e, Node l, Node r){
+    public Node(Comparable e, Node l, Node r){
         elem = e;
         leftSubTree = l;
         rightSubTree = r;
     }
-    public Node(Item e){ elem = e; }
+    public Node(Comparable e){ elem = e; }
     public Node(){}
     public void display(){
         System.out.println(this.elem);
     }
 }
 
-class DataType
-{
-    
-}
