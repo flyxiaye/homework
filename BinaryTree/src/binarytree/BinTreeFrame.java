@@ -182,7 +182,7 @@ public class BinTreeFrame extends javax.swing.JFrame {
         DefaultTreeModel treeModel = (DefaultTreeModel) jTree1.getModel();
         DefaultMutableTreeNode parent = null;
         try {
-//            while(true){
+//            while(true){  //删除全部匹配元素
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeModel.getRoot();
                 while (true) {
                     if (node.toString().equals(str)) {   //delete node 
