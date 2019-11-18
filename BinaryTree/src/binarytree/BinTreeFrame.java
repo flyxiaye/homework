@@ -178,48 +178,66 @@ public class BinTreeFrame extends javax.swing.JFrame {
         String str = jTextField1.getText();
         jTextField1.setText("");
         jTextField1.requestFocus();
+        if (str.equals("") || jTree1 == null) return;
         DefaultTreeModel treeModel = (DefaultTreeModel) jTree1.getModel();
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeModel.getRoot();
         DefaultMutableTreeNode parent = null;
-        while(true){
-            if (node.toString().equals(str)){   //delete node
-                parent = (DefaultMutableTreeNode)node.getParent();
-                deleteNode(node);
-                break;
-            }
-            else if (Double.valueOf(str).compareTo(Double.valueOf(node.toString())) < 0)
-                node = (DefaultMutableTreeNode)node.getFirstChild();
-            else node = (DefaultMutableTreeNode)node.getLastChild();
+        try {
+//            while(true){
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeModel.getRoot();
+                while (true) {
+                    if (node.toString().equals(str)) {   //delete node 
+                        parent = (DefaultMutableTreeNode) node.getParent();
+                        if (parent == null) {
+                            if (node.getChildCount() == 0) {
+                                jTree1 = null;
+                                jScrollPane2.setViewportView(jTree1);
+                            } else if (node.getChildCount() == 1) {
+                                DefaultMutableTreeNode child = (DefaultMutableTreeNode) node.getFirstChild();
+                                node.remove(child);
+                                treeModel.setRoot(child);
+                            } else {
+                                deleteNode(node);
+                            }
+                        } else {
+                            deleteNode(node);
+                        }
+                        break;
+                    } else if (Double.valueOf(str).compareTo(Double.valueOf(node.toString())) < 0) {
+                        node = (DefaultMutableTreeNode) node.getFirstChild();
+                    } else {
+                        node = (DefaultMutableTreeNode) node.getLastChild();
+                    }
+                }
+//            }
+        } catch (NoSuchElementException ex) {
         }
         treeModel.reload();
-        jTree1.scrollPathToVisible(new TreePath(parent.getPath()));
     }//GEN-LAST:event_jButton2ActionPerformed
-    private void deleteNode(DefaultMutableTreeNode delNode){
-        if (delNode.getChildCount() == 0){
-            DefaultMutableTreeNode parent = (DefaultMutableTreeNode)delNode.getParent();
-            if (parent != null){
-                parent.remove(delNode);
-            }
-        }
-        else if (delNode.getChildCount() == 1){
-            DefaultMutableTreeNode parent = (DefaultMutableTreeNode)delNode.getParent();
-            DefaultMutableTreeNode child = (DefaultMutableTreeNode)delNode.getFirstChild();
+
+    private void deleteNode(DefaultMutableTreeNode delNode) {
+        if (delNode.getChildCount() == 0) {
+            DefaultMutableTreeNode parent = (DefaultMutableTreeNode) delNode.getParent();
             parent.remove(delNode);
-            if (parent.getChildCount() == 1){
-                if (Double.valueOf(child.toString()).compareTo(Double.valueOf(parent.getFirstChild().toString())) < 0)
+        } else if (delNode.getChildCount() == 1) {
+            DefaultMutableTreeNode parent = (DefaultMutableTreeNode) delNode.getParent();
+            DefaultMutableTreeNode child = (DefaultMutableTreeNode) delNode.getFirstChild();
+            parent.remove(delNode);
+            if (parent.getChildCount() == 1) {
+                if (Double.valueOf(child.toString()).compareTo(Double.valueOf(parent.getFirstChild().toString())) < 0) {
                     parent.insert(child, 0);
-                else parent.insert(child, 1);
+                } else {
+                    parent.insert(child, 1);
+                }
+            } else {
+                parent.insert(child, 0);
             }
-            else parent.insert(child, 0);
-        }
-        else if (delNode.getChildCount() == 2){
-            DefaultMutableTreeNode parent = (DefaultMutableTreeNode)delNode.getParent();
-            DefaultMutableTreeNode child = (DefaultMutableTreeNode)delNode.getFirstChild();
+        } else if (delNode.getChildCount() == 2) {
             DefaultMutableTreeNode oldNode = delNode;
-            delNode = (DefaultMutableTreeNode)delNode.getLastChild();
+            delNode = (DefaultMutableTreeNode) delNode.getLastChild();
             while (delNode.getChildCount() > 0
-                    && Double.valueOf(delNode.toString()).compareTo(Double.valueOf(delNode.getFirstChild().toString())) > 0) 
-                delNode = (DefaultMutableTreeNode)delNode.getFirstChild();
+                    && Double.valueOf(delNode.toString()).compareTo(Double.valueOf(delNode.getFirstChild().toString())) > 0) {
+                delNode = (DefaultMutableTreeNode) delNode.getFirstChild();
+            }
             jTree1.getModel().valueForPathChanged(new TreePath(oldNode.getPath()), delNode.toString());
             deleteNode(delNode);
         }
@@ -230,6 +248,7 @@ public class BinTreeFrame extends javax.swing.JFrame {
         String str = jTextField1.getText();
         jTextField1.setText("");
         jTextField1.requestFocus();
+        if (str.equals("") || jTree1 == null) return;
         DefaultTreeModel treeModel = (DefaultTreeModel) jTree1.getModel();
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeModel.getRoot();
         Vector treePaths = new Vector<TreePath>();
